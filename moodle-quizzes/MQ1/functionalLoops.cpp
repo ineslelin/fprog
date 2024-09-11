@@ -7,7 +7,8 @@ using namespace std;
 
 int prodWithFunctionalLoops(vector<int> const& numbers)
 {
-    return 0;
+    return accumulate(numbers.begin(), numbers.end(), 1,
+                        [](int const a, int const b){ return static_cast<int>(a * b); });
 }
 
 int main() {
