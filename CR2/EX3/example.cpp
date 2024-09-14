@@ -2,52 +2,27 @@
 #include <cmath>
 #include <sstream>
 
-struct Tetraeder 
-{
-  int a;
-};
-
-float Volume(Tetraeder const& tetraeder);
-float Surface(Tetraeder const& tetraeder);
-float IncircleRadius(Tetraeder const& tetraeder);
-float CircumferenceRadius(Tetraeder const& tetraeder);
+auto Volume = [](int const& a){ return pow(a, 3) * sqrt(2) / 12; };
+auto Surface = [](int const& a){ return pow(a, 2) * sqrt(3); };
+auto IncircleRadius = [](int const& a){ return a * sqrt(6) / 12; };
+auto CircumferenceRadius = [](int const& a){ return a * sqrt(6) / 4; };
 
 std::string FormatOutput(float const& V, float const& A, float const& ri, float const& ru);
 void PrintOutput(std::string const& text);
 
 int main (int argc, char *argv[])
 {
-  Tetraeder tetraeder = { 2 };
+  int a = 2;
 
-  float V = Volume(tetraeder);
-  float A = Surface(tetraeder);
-  float ri = IncircleRadius(tetraeder);
-  float ru = CircumferenceRadius(tetraeder);
+  float V = Volume(a);
+  float A = Surface(a);
+  float ri = IncircleRadius(a);
+  float ru = CircumferenceRadius(a);
 
   std::string output = FormatOutput(V, A, ri, ru);
   PrintOutput(output);
 
   return 0;
-}
-
-float Volume(Tetraeder const& tetraeder)
-{
-  return pow(tetraeder.a, 3) * sqrt(2) / 12;
-}
-
-float Surface(Tetraeder const& tetraeder)
-{
-  return pow(tetraeder.a, 2) * sqrt(3);
-}
-
-float IncircleRadius(Tetraeder const& tetraeder)
-{
-  return tetraeder.a * sqrt(6) / 12;
-}
-
-float CircumferenceRadius(Tetraeder const& tetraeder)
-{
-  return tetraeder.a * sqrt(6) / 4;
 }
 
 std::string FormatOutput(float const& V, float const& A, float const& ri, float const& ru)
