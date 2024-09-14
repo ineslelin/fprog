@@ -25,11 +25,13 @@ auto compose(F f, G g){
   return [=](auto value){return f(g(value));};
 }
 
-// TEST_CASE("Composition"){
-// /* your code will be placed here */
-//     CHECK_EQ(3, doctest::Approx(log_exp(3)));
-// 	CHECK_EQ(3, doctest::Approx(exp_log(3)));
-// }
+TEST_CASE("Composition"){
+  auto log_exp = compose(nat_log, e_power_x);
+  auto exp_log = compose(e_power_x, nat_log);
+
+  CHECK_EQ(3, doctest::Approx(log_exp(3)));
+	CHECK_EQ(3, doctest::Approx(exp_log(3)));
+}
 
 // 	CHECK_EQ(exp_log(5.5), doctest::Approx(log_exp(5.5)));
 // }

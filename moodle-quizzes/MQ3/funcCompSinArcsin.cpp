@@ -25,11 +25,13 @@ auto compose(F f, G g){
   return [=](auto value){return f(g(value));};
 }
 
-// TEST_CASE("Composition"){
-// /* your code will be placed here */
-// 	CHECK_EQ(0.3, doctest::Approx(asin_sin(0.3)));
-// 	CHECK_EQ(0.3, doctest::Approx(sin_asin(0.3)));
-// }
+TEST_CASE("Composition"){
+  auto asin_sin = compose(arc_sin, sin_x);
+  auto sin_asin = compose(sin_x, arc_sin);
+
+	CHECK_EQ(0.3, doctest::Approx(asin_sin(0.3)));
+	CHECK_EQ(0.3, doctest::Approx(sin_asin(0.3)));
+}
 
 // 	CHECK_EQ(0.5, doctest::Approx(asin_sin(0.5)));
 // 	CHECK_EQ(0.5, doctest::Approx(sin_asin(0.5)));
