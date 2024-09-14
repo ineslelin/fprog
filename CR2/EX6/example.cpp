@@ -2,52 +2,27 @@
 #include <cmath>
 #include <sstream>
 
-struct Dodecaeder
-{
-  int a;
-};
-
-float Volume(Dodecaeder const& dodecaeder);
-float Surface(Dodecaeder const& dodecaeder);
-float IncircleRadius(Dodecaeder const& dodecaeder);
-float CircumferenceRadius(Dodecaeder const& dodecaeder);
+auto Volume = [](int const& a){ return pow(a, 3) * (15 + 7 * sqrt(5)) / 4.0; };
+auto Surface = [](int const& a){ return 3 * pow(a, 2) * sqrt(5 * (5 + 2 * sqrt(5))); };
+auto IncircleRadius = [](int const& a){ return a * sqrt(10 * (25 + 11 * sqrt(5))) / 20.0; };
+auto CircumferenceRadius = [](int const& a){ return a * sqrt(3) * (1 + sqrt(5)) / 4.0; };
 
 std::string FormatOutput(float const& V, float const& A, float const& ri, float const& ru);
 void PrintOutput(std::string const& text);
 
 int main(int argc, char *argv[])
 {
-  Dodecaeder dodecaeder = { 2 };
+  int a = 2;
 
-  float V = Volume(dodecaeder);
-  float A = Surface(dodecaeder);
-  float ri = IncircleRadius(dodecaeder);
-  float ru = CircumferenceRadius(dodecaeder);
+  float V = Volume(a);
+  float A = Surface(a);
+  float ri = IncircleRadius(a);
+  float ru = CircumferenceRadius(a);
 
   std::string output = FormatOutput(V, A, ri, ru);
   PrintOutput(output);
 
   return 0;
-}
-
-float Volume(Dodecaeder const& dodecaeder)
-{
-  return pow(dodecaeder.a, 3) * (15 + 7 * sqrt(5)) / 4.0;
-}
-
-float Surface(Dodecaeder const& dodecaeder)
-{
-  return 3 * pow(dodecaeder.a, 2) * sqrt(5 * (5 + 2 * sqrt(5)));
-}
-
-float IncircleRadius(Dodecaeder const& dodecaeder)
-{
-  return dodecaeder.a * sqrt(10 * (25 + 11 * sqrt(5))) / 20.0;
-}
-
-float CircumferenceRadius(Dodecaeder const& dodecaeder)
-{
-  return dodecaeder.a * sqrt(3) * (1 + sqrt(5)) / 4.0;
 }
 
 std::string FormatOutput(float const& V, float const& A, float const& ri, float const& ru)
