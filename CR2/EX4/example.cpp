@@ -2,52 +2,27 @@
 #include <cmath>
 #include <sstream>
 
-struct Octaeder
-{
-  int a;
-};
-
-float Volume(Octaeder const& octaeder);
-float Surface(Octaeder const& octaeder);
-float IncircleRadius(Octaeder const& octaeder);
-float CircumferenceRadius(Octaeder const& octaeder);
+auto Volume = [](int const& a){ return pow(a, 3) * sqrt(2) / 3; };
+auto Surface = [](int const& a){ return 2 * pow(a, 2) * sqrt(3); };
+auto IncircleRadius = [](int const& a){ return a * sqrt(6) / 6; };
+auto CircumferenceRadius = [](int const& a){ return a * sqrt(2) / 2; };
 
 std::string FormatOutput(float const& V, float const& A, float const& ri, float const& ru);
 void PrintOutput(std::string const& text);
 
 int main(int argc, char *argv[])
 {
-  Octaeder octaeder = { 2 };
+  int a = 2;
 
-  float V = Volume(octaeder);
-  float A = Surface(octaeder);
-  float ri = IncircleRadius(octaeder);
-  float ru = CircumferenceRadius(octaeder);
+  float V = Volume(a);
+  float A = Surface(a);
+  float ri = IncircleRadius(a);
+  float ru = CircumferenceRadius(a);
 
   std::string output = FormatOutput(V, A, ri, ru);
   PrintOutput(output);
 
   return 0;
-}
-
-float Volume(Octaeder const& octaeder)
-{
-  return pow(octaeder.a, 3) * sqrt(2) / 3;
-}
-
-float Surface(Octaeder const& octaeder)
-{
-  return 2 * pow(octaeder.a, 2) * sqrt(3);
-}
-
-float IncircleRadius(Octaeder const& octaeder)
-{
-  return octaeder.a * sqrt(6) / 6;
-}
-
-float CircumferenceRadius(Octaeder const& octaeder)
-{
-  return octaeder.a * sqrt(2) / 2;
 }
 
 std::string FormatOutput(float const& V, float const& A, float const& ri, float const& ru)
