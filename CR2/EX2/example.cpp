@@ -2,59 +2,29 @@
 #include <cmath>
 #include <sstream>
 
-struct Cube
-{
-	int a;
-};
-
-int Volume(Cube const& cube);
-int Surface(Cube const& cube);
-float Diagonal(Cube const& cube);
-float IncircleRadius(Cube const& cube);
-float CircumferenceRadius(Cube const& cube);
+auto Volume = [](int const& a){ return pow(a, 3); };
+auto Surface = [](int const& a){ return 6 * pow(a, 2); };
+auto Diagonal = [](int const& a){ return a * sqrt(3); };
+auto IncircleRadius = [](int const& a){ return a / 2; };
+auto CircumferenceRadius = [](int const& a){ return a / 2 * sqrt(3); };
 
 std::string FormatOutput(int const& V, int const& A, float const& d, float const& ri, float const& ru);
 void PrintOutput(std::string const& text);
 
 int main (int argc, char *argv[])
 {
-  	Cube cube = { 2 };
+  	int a = 2;
 
-	int V = Volume(cube);
-	int A = Surface(cube);
-	float d = Diagonal(cube);
-	float ri = IncircleRadius(cube);
-	float ru = CircumferenceRadius(cube);
+	auto V = Volume(a);
+	auto A = Surface(a);
+	auto d = Diagonal(a);
+	auto ri = IncircleRadius(a);
+	auto ru = CircumferenceRadius(a);
 
 	std::string output = FormatOutput(V, A, d, ri, ru);
 	PrintOutput(output);
 
   	return 0;
-}
-
-int Volume(Cube const& cube)
-{
-	return pow(cube.a, 3);
-}
-
-int Surface(Cube const& cube)
-{
-	return 6 * pow(cube.a, 2);
-}
-
-float Diagonal(Cube const& cube)
-{
-	return cube.a * sqrt(3);
-}
-
-float IncircleRadius(Cube const& cube)
-{
-	return cube.a / 2;
-}
-
-float CircumferenceRadius(Cube const& cube)
-{
-	return cube.a / 2 * sqrt(3);
 }
 
 std::string FormatOutput(int const& V, int const& A, float const& d, float const& ri, float const& ru)
