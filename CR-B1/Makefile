@@ -1,9 +1,10 @@
 PROGRAM   = connect4
 CXX       = clang++
-CXXFLAGS  = -g -std=c++17 -Wall -lm
+CXXFLAGS += -std=c++17 -I/usr/include/c++/v1
+LDFLAGS   += -lstdc++
 
 $(PROGRAM): connect4Result.cpp
-	$(CXX) connect4Result.cpp -o $(PROGRAM)
+	$(CXX) $(CXXFLAGS) connect4Result.cpp -o $(PROGRAM) $(LDFLAGS)
 
 .PHONY: clean 
 

@@ -1,3 +1,4 @@
+#include <optional>
 #include <iostream>
 #include <functional>
 #include <numeric>
@@ -184,12 +185,12 @@ auto inProgress = [](const auto& board){
 
 auto findInCollection = [](const auto& collection, const auto& fn){
     const auto result = find_if(collection.begin(), collection.end(), fn);
-    return (result == collection.end()) ? nullopt : optional(*result);
+    return (result == collection.end()) ? std::nullopt : std::optional(*result);
 };
 
 auto findInCollectionWithDefault = [](const auto& collection, const auto& defaultResult, const auto& fn){
-    const auto result = findInCollection(collection, fn);
-    return result.has_value() ? (*result) : defaultResult;
+    const auto result = find_if(collection.begin(), collection.end(), fn);
+    return result == collection.end() ? defaultResult : *result;
 }; 
 
 auto howDidXWin = [](auto const board){
