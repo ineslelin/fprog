@@ -202,14 +202,15 @@ auto draw = [](const auto& board){
 
 auto CheckValidTokenDiff = [](auto const board, const char redToken, const char yellowToken)
 {
-    int redCount = 0;
-    int yellowCount = 0;
-
-    for(const auto& row : board)
-    {
-        redCount += count(row.begin(), row.end(), 'X');
-        yellowCount += count(row.begin(), row.end(), 'O');
-    }
+    int redCount = std::accumulate(board.begin(), board.end(), 0, 
+        [redToken](int count, const Line& row) {
+            return count + std::count(row.begin(), row.end(), redToken);
+        });
+    
+    int yellowCount = std::accumulate(board.begin(), board.end(), 0, 
+        [yellowToken](int count, const Line& row) {
+            return count + std::count(row.begin(), row.end(), yellowToken);
+        });
 
     return (redCount - yellowCount <= 1 && yellowCount - redCount <= 1);
 };
@@ -229,15 +230,13 @@ auto CheckBoardDimensions = [](auto const board, int expectedRow, int expectedCo
     int colDim = 0;
 
     colDim = board.size();
-    for(auto const& row : board)
-    {
-        rowDim = row.size();
-    }
+    rowDim = board[0].size();
 
     return (rowDim == expectedRow && colDim == expectedCol) ? true : false;
 };
 
 // TESTS
+#pragma region REF TESTS
 TEST_CASE("lines")
 {
     Board board {
@@ -469,6 +468,7 @@ TEST_CASE("draw"){
 
     CHECK(draw(board));
 }
+#pragma endregion
 
 TEST_CASE("Difference in number of tokens > 1")
 {
