@@ -226,13 +226,7 @@ auto CheckValidTokens = [](auto const board, const vector<char>& validTokens)
 
 auto CheckBoardDimensions = [](auto const board, int expectedRow, int expectedCol)
 {
-    int rowDim = 0;
-    int colDim = 0;
-
-    colDim = board.size();
-    rowDim = board[0].size();
-
-    return (rowDim == expectedRow && colDim == expectedCol) ? true : false;
+    return (board[0].size() == expectedRow && board.size() == expectedCol) ? true : false;
 };
 
 // TESTS
