@@ -2,8 +2,9 @@
 #include <iostream>
 #include <functional>
 #include <numeric>
+#include <vector>
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
-#include "doctest.h"
+#include "../doctest.h"
 
 using namespace std;
 using namespace std::placeholders;
@@ -260,7 +261,7 @@ TEST_CASE("lines")
     Line expectedLine5{' ', ' ', 'O', ' ', ' ', ' ', ' '};
     CHECK_EQ(expectedLine5, line(board, 5));
 
-}
+};
 
 TEST_CASE("all columns")
 {
@@ -287,7 +288,7 @@ TEST_CASE("all columns")
     CHECK_EQ(expectedColumn5, column(board, 5));
     Line expectedColumn6{'X', ' ', ' ', 'O', ' ', ' '};
     CHECK_EQ(expectedColumn6, column(board, 6));
-}
+};
 
 TEST_CASE("fwd diagonal")
 {
@@ -305,7 +306,7 @@ TEST_CASE("fwd diagonal")
 
     Line expectedDiagonal01{' ', ' ', ' ', 'O', ' ', ' '};
     CHECK_EQ(expectedDiagonal01, fwdDiagonal(board, {0, 1}));
-}
+};
 
 TEST_CASE("back diagonal")
 {
@@ -323,7 +324,7 @@ TEST_CASE("back diagonal")
 
     Line expectedDiagonal05{' ', 'X', ' ', 'O', 'O', ' '};
     CHECK_EQ(expectedDiagonal05, backDiagonal(board, {0, 5}));
-}
+};
 
 TEST_CASE("all lines and columns")
 {
@@ -354,7 +355,7 @@ TEST_CASE("all lines and columns")
     auto all = allLinesAndColumns(board);
 
     CHECK_EQ(expected, all);
-}
+};
 
 TEST_CASE("line to string")
 {
@@ -363,7 +364,7 @@ TEST_CASE("line to string")
     };
 
     CHECK_EQ(" XO XO ", lineToString(line));
-}
+};
 
 TEST_CASE("board to lines string")
 {
@@ -385,7 +386,7 @@ TEST_CASE("board to lines string")
     };
 
     CHECK_EQ(expected, boardToLinesString(board));
-}
+};
 
 TEST_CASE("board to string"){
     Board board {
@@ -400,29 +401,29 @@ TEST_CASE("board to string"){
     string expected{"XXXXXXX\nXXXXXXX\nXXXXXXX\nOOOOOOO\nOOOOOOO\nOOOOOOO\n"};
 
     CHECK_EQ(expected, boardToString(board));
-}
+};
 
 TEST_CASE("Four X in a row"){
     Line line{'O', ' ', 'X', 'X', 'X', 'X', 'O'};
 
     CHECK(fourXInARow(line));
-}
+};
 
 TEST_CASE("Line not filled with X"){
     CHECK(!fourXInARow(Line({'X', 'O', 'X', 'X', 'O', 'X', 'O'})));
     CHECK(!fourXInARow(Line({'X', ' ', 'X', 'X', 'X', ' ', ' '})));
-}
+};
 
 TEST_CASE("Four O in a row"){
     Line line{'O', 'O', 'O', 'O', 'X', 'X', 'O'};
 
     CHECK(fourOInARow(line));
-}
+};
 
 TEST_CASE("Line not filled with O"){
     CHECK(!fourOInARow(Line({'X', 'O', 'X', 'X', 'O', 'X', 'O'})));
     CHECK(!fourOInARow(Line({'X', ' ', 'X', 'X', 'X', ' ', ' '})));
-}
+};
 
 TEST_CASE("X wins"){
     Board board{
@@ -435,7 +436,7 @@ TEST_CASE("X wins"){
     };
 
     CHECK(xWins(board));
-}
+};
 
 TEST_CASE("O wins"){
     Board board{
@@ -448,7 +449,7 @@ TEST_CASE("O wins"){
     };
 
     CHECK(oWins(board));
-}
+};
 
 TEST_CASE("draw"){
     Board board{
@@ -461,7 +462,7 @@ TEST_CASE("draw"){
     };
 
     CHECK(draw(board));
-}
+};
 #pragma endregion
 
 TEST_CASE("Difference in number of tokens > 1")
@@ -476,7 +477,7 @@ TEST_CASE("Difference in number of tokens > 1")
     };
 
     CHECK_FALSE(CheckValidTokenDiff(board, 'X', 'O'));
-}
+};
 
 TEST_CASE("Difference in number of tokens < 1")
 {
@@ -490,7 +491,7 @@ TEST_CASE("Difference in number of tokens < 1")
     };
 
     CHECK(CheckValidTokenDiff(board, 'X', 'O'));
-}
+};
 
 TEST_CASE("Correct tokens")
 {
@@ -504,7 +505,7 @@ TEST_CASE("Correct tokens")
     };
 
     CHECK(CheckValidTokens(board, {'X', 'O', ' '}));
-}
+};
 
 TEST_CASE("Wrong tokens")
 {
@@ -518,7 +519,7 @@ TEST_CASE("Wrong tokens")
     };
 
     CHECK_FALSE(CheckValidTokens(board, {'X', 'O', ' '}));
-}
+};
 
 TEST_CASE("Board dimension wrong")
 {
@@ -531,7 +532,7 @@ TEST_CASE("Board dimension wrong")
     };
 
     CHECK_FALSE(CheckBoardDimensions(board, 7, 6));
-}
+};
 
 TEST_CASE("Board dimension correct")
 {
@@ -545,4 +546,4 @@ TEST_CASE("Board dimension correct")
     };
 
     CHECK(CheckBoardDimensions(board, 7, 6));
-}
+};
