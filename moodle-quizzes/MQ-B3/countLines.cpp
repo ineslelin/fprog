@@ -6,9 +6,18 @@ using namespace std;
 
 auto count_lines = [](std::string s) -> int
 {
-    int count = 0;
+    int counter = 0;
 
-    return count;
+    auto count = [&](char const c){
+        if(c == '\n')
+            counter += 1;
+
+        return;
+    };
+
+    std::for_each(s.begin(), s.end(), count);
+
+    return counter;
 };
 
 TEST_CASE("Counting newlines in a string 1")
