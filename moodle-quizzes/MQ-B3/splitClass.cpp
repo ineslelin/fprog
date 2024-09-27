@@ -6,16 +6,20 @@
 
 using namespace std;
 
-// split the class into pure functions
+auto area = [](float const& width, float const& height) -> float
+{
+    return abs(width * height);
+};
 
-class Rectangle {
-    float width=0.0, height=0.0;
-  public:
-    Rectangle(float x, float y) : width(x), height(y) {}
-    float area() {return abs(width*height);}
-    int circumfence() {return abs(2*(width+height));}
-    float diagonal() {return sqrt(pow(width,2)+pow(height,2));}
-}; 
+auto circumference = [](float const& width, float const& height) -> float
+{
+    return abs(2 * (width + height));
+};
+
+auto diagonal = [](float const& width, float const& height) -> float
+{   
+    return sqrt(pow(width, 2) + pow(height, 2));
+};
 
 auto initialize = [] (const auto width, const auto height) -> std::map<string, function<float()>>{
 return {
@@ -24,16 +28,6 @@ return {
 	{"diagonal", bind(diagonal, width, height)}
 	};
 };
-
-
-
-TEST_CASE ("Rectangle 1")
-{
-  Rectangle rect(3,4);
-  CHECK_EQ (12, rect.area());
-  CHECK_EQ (14, rect.circumfence());
-  CHECK_EQ (5, rect.diagonal());
-} 
 
 TEST_CASE ("Rectangle 2")
 {
