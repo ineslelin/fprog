@@ -11,4 +11,4 @@ bucketSort: bucketSort.cpp
 .PHONY: clean 
 
 clean:
-	-rm -f *.o $(PROGRAM) 
+	-rm -f *.o $(PROGRAMS) 

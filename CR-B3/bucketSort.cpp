@@ -25,22 +25,17 @@ auto sortBucket = [](Bucket const& unsortedBucket) -> Bucket
 auto sortList = [](std::vector<float> const& list) -> std::vector<float>
 {
     std::vector<Bucket> unsortedBuckets(LIST_SIZE);
-
     std::for_each(list.begin(), list.end(), [&](float const& item) {
         int i = findBucketIndex(item);
         unsortedBuckets[i].push_back(item);
     });
 
-    std::vector<Bucket> sortedBuckets(LIST_SIZE);
-    int sortedIndex = 0;
-
-    std::for_each(unsortedBuckets.begin(), unsortedBuckets.end(), [&](Bucket const& unsorted) {
-        sortedBuckets[sortedIndex] = sortBucket(unsorted);
-        sortedIndex += 1;
-    });
+    std::vector<Bucket> sortedBuckets;
+    std::transform(unsortedBuckets.begin(), unsortedBuckets.end(), std::back_inserter(sortedBuckets),
+        [&](Bucket const& unsorted) { return sortBucket(unsorted); }
+    );
 
     std::vector<float> sortedList;
-
     std::for_each(sortedBuckets.begin(), sortedBuckets.end(), [&](Bucket const& bucket) {
         std::for_each(bucket.begin(), bucket.end(), [&](float const& item) {
             sortedList.push_back(item);
