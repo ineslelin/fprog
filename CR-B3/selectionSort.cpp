@@ -17,6 +17,9 @@ auto isListSorted = [](std::vector<float> const& list)
 
 auto sortList = [](std::vector<float> const& list) -> std::vector<float>
 {
+    if(list.size() <= 1)
+        return list;
+
     std::vector<float> unsorted = list;
     int iteration = 0;
 
@@ -50,6 +53,24 @@ auto sortList = [](std::vector<float> const& list) -> std::vector<float>
 
     return sorted;
 };
+
+TEST_CASE("empty list")
+{
+    std::vector<float> unsorted = {};
+
+    std::vector<float> expected = {};
+
+    CHECK_EQ(expected, sortList(unsorted));
+}
+
+TEST_CASE("1 element")
+{
+    std::vector<float> unsorted = {1};
+
+    std::vector<float> expected = {1};
+
+    CHECK_EQ(expected, sortList(unsorted));
+}
 
 TEST_CASE("5 elements")
 {
