@@ -4,29 +4,40 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "../doctest.h"
 
-constexpr int LIST_SIZE = 10;
-
 using Bucket = std::vector<float>;
 
-auto findBucketIndex = [](float const& item) -> int 
+auto findBucketIndex = [](float const& item, int numBuckets, float maxVal) -> int 
 {
-    int b = item * LIST_SIZE;
-    return b;
+    if (item < 0) return 0;
+    if (item >= maxVal) return numBuckets - 1;
+    return static_cast<int>(item / (maxVal / numBuckets));
 };
 
 auto sortBucket = [](Bucket const& unsortedBucket) -> Bucket
 {
-    Bucket sortedBucket = unsortedBucket;
-    std::sort(sortedBucket.begin(), sortedBucket.end());
+    Bucket sortedBucket;
+
+    std::for_each(unsortedBucket.begin(), unsortedBucket.end(), [&](float const& curr)
+    {
+        auto pos = std::lower_bound(sortedBucket.begin(), sortedBucket.end(), curr);
+        sortedBucket.insert(pos, curr);
+    });
 
     return sortedBucket;
 };
 
 auto sortList = [](std::vector<float> const& list) -> std::vector<float>
 {
-    std::vector<Bucket> unsortedBuckets(LIST_SIZE);
+    if(list.size() <= 1)
+        return list;
+
+    float maxVal = *std::max_element(list.begin(), list.end());
+    int numBuckets = std::max(1, static_cast<int>(list.size() / 2));
+
+    std::vector<Bucket> unsortedBuckets(numBuckets);
+    
     std::for_each(list.begin(), list.end(), [&](float const& item) {
-        int i = findBucketIndex(item);
+        int i = findBucketIndex(item, numBuckets, maxVal);
         unsortedBuckets[i].push_back(item);
     });
 
@@ -44,6 +55,24 @@ auto sortList = [](std::vector<float> const& list) -> std::vector<float>
 
     return sortedList;
 };
+
+TEST_CASE("empty list")
+{
+    std::vector<float> unsorted = {};
+
+    std::vector<float> expected = {};
+
+    CHECK_EQ(expected, sortList(unsorted));
+}
+
+TEST_CASE("1 element")
+{
+    std::vector<float> unsorted = {1};
+
+    std::vector<float> expected = {1};
+
+    CHECK_EQ(expected, sortList(unsorted));
+}
 
 TEST_CASE("5 elements")
 {
@@ -74,7 +103,7 @@ TEST_CASE("15 elements")
 
 TEST_CASE("find bucket index")
 {
-    CHECK_EQ(3, findBucketIndex(0.324));
+    CHECK_EQ(3, findBucketIndex(0.324, 10, 1));
 }
 
 TEST_CASE("are buckets sorted")
