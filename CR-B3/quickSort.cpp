@@ -11,6 +11,9 @@ auto isBiggerThanPivot = [](float const& pivot, float const& number)
 
 auto sortPartition = [](std::vector<float> const& unsortedPartition) -> std::vector<float>
 {
+    if(unsortedPartition.size() <= 1)
+        return unsortedPartition;
+
     std::vector<float> sortedPartition;
 
     std::for_each(unsortedPartition.begin(), unsortedPartition.end(), [&](float const& curr)
@@ -24,6 +27,9 @@ auto sortPartition = [](std::vector<float> const& unsortedPartition) -> std::vec
 
 auto sortList = [](std::vector<float> const& list) -> std::vector<float>
 {
+    if(list.size() <= 1)
+        return list;
+
     std::vector<float> unsorted = list;
     float pivot = *unsorted.begin();
 
@@ -59,6 +65,24 @@ auto sortList = [](std::vector<float> const& list) -> std::vector<float>
     return sorted;
 };
 
+TEST_CASE("empty list")
+{
+    std::vector<float> unsorted = {};
+
+    std::vector<float> expected = {};
+
+    CHECK_EQ(expected, sortList(unsorted));
+}
+
+TEST_CASE("1 element")
+{
+    std::vector<float> unsorted = {1};
+
+    std::vector<float> expected = {1};
+
+    CHECK_EQ(expected, sortList(unsorted));
+}
+
 TEST_CASE("5 elements")
 {
     std::vector<float> unsorted = {14, 36, 9, 93, 80};
@@ -76,6 +100,24 @@ TEST_CASE("bigger than pivot")
 TEST_CASE("bigger than pivot")
 {
     CHECK_FALSE(isBiggerThanPivot(56, 5));
+}
+
+TEST_CASE("empty partition")
+{
+    std::vector<float> unsorted = {};
+
+    std::vector<float> expected = {};
+
+    CHECK_EQ(expected, sortPartition(unsorted));
+}
+
+TEST_CASE("1 element in partition")
+{
+    std::vector<float> unsorted = {1};
+
+    std::vector<float> expected = {1};
+
+    CHECK_EQ(expected, sortPartition(unsorted));
 }
 
 TEST_CASE("is partition sorted")
