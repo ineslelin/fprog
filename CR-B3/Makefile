@@ -1,6 +1,6 @@
-PROGRAMS   = bucketSort bubbleSort
+PROGRAMS   = bucketSort bubbleSort selectionSort
 CXX       = clang++
-CXXFLAGS += -std=c++17 -I/usr/include/c++/v1
+CXXFLAGS += -std=c++17 -I/usr/include/c++/v1 -Wall -Werror
 LDFLAGS   += -lstdc++
 
 all: $(PROGRAMS)
@@ -10,6 +10,9 @@ bucketSort: bucketSort.cpp
 
 bubbleSort: bubbleSort.cpp
 	$(CXX) $(CXXFLAGS) bubbleSort.cpp -o bubbleSort $(LDFLAGS)
+
+selectionSort: selectionSort.cpp
+	$(CXX) $(CXXFLAGS) selectionSort.cpp -o selectionSort $(LDFLAGS)
 
 .PHONY: clean 
 
