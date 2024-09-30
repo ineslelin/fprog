@@ -19,8 +19,7 @@ auto sortList = [](std::vector<float> const& list) -> std::vector<float>
 {
     std::vector<float> unsortedList = list;
 
-    do
-    {
+    std::function<void()> sortFunc = [&]() {
         std::for_each(unsortedList.begin(), unsortedList.end() - 1, [&](float& curr) {
             float& next = *(&curr + 1);
 
@@ -29,7 +28,14 @@ auto sortList = [](std::vector<float> const& list) -> std::vector<float>
                 std::swap(curr, next);
             }
         });
-    } while (!isListSorted(unsortedList));
+
+        if(!isListSorted(unsortedList))
+        {
+            sortFunc();
+        }
+    };
+
+    sortFunc();
     
     return unsortedList;
 };
