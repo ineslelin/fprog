@@ -5,7 +5,7 @@
 std::experimental::optional < int > getFirst (const std::vector < int >&vec)
 {
   if (!vec.empty ())
-    return std::experimental::optional < int >(vec[1]);
+    return std::experimental::optional < int >(vec[0]);
   else
     return std::experimental::optional < int >();
 } 
