@@ -1,5 +1,5 @@
 PROGRAMS   = monadCorrect monadTest
-CXX       = clang++
+CXX       = gcc
 CXXFLAGS += -std=c++17 -I/usr/include/c++/v1
 LDFLAGS   += -lstdc++
 

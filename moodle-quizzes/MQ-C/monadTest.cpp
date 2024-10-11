@@ -5,12 +5,12 @@
 
 // optional can be used as the return type of a factory that may fail
 std::experimental::optional<std::string> create(bool b) {
-   // your code here
+   return !b ? std::experimental::nullopt : std::experimental::make_optional("Godzilla");
 }
  
 // std::experimental::nullopt can be used to create any (empty) std::experimental::optional
 auto create2(bool b) {
-    // your code here
+    return !b ? std::experimental::make_optional("needed") : std::experimental::make_optional("Godzilla");
 }
 
 int main() // create(false) returned empty
