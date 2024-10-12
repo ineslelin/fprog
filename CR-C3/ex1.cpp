@@ -11,3 +11,114 @@
     4. Lastly create a lambda function to count the letters in the file.
     5. Please use a main function to demonstrate the usage.
 */
+
+#include <experimental/optional>
+#include <iostream>
+#include <fstream>
+#include <algorithm>
+#include <vector>
+#include <numeric>
+
+// make maybe monad
+
+auto readLettersFromFileLambda = [](std::string const& path) -> std::experimental::optional<std::string>
+{
+    std::ifstream file(path); 
+
+    std::string line;
+    std::vector<std::string> lines;
+
+    if(!file.is_open()) 
+        return std::experimental::nullopt;
+    
+    while(getline(file, line))
+    {
+        lines.push_back(line);
+    }
+
+    file.close();
+
+    std::string contents = std::accumulate(lines.begin(), lines.end(), std::string(),
+        [](std::string const& acc, std::string const& curr) {
+            return acc.empty() ? curr : acc + '\n' + curr;
+        });
+
+    return std::experimental::make_optional(contents);
+};
+
+std::experimental::optional<std::string> readLettersFromFileFunc(std::string const& path)
+{
+    std::ifstream file(path); 
+
+    std::string line;
+    std::vector<std::string> lines;
+
+    if(!file.is_open()) 
+        return std::experimental::nullopt;
+    
+    while(getline(file, line))
+    {
+        lines.push_back(line);
+    }
+
+    file.close();
+
+    std::string contents = std::accumulate(lines.begin(), lines.end(), std::string(),
+        [](std::string const& acc, std::string const& curr) {
+            return acc.empty() ? curr : acc + '\n' + curr;
+        });
+
+    return std::experimental::make_optional(contents);
+}
+
+auto countLetters = [](std::string const& contents) -> std::experimental::optional<int>
+{
+    int count = 0;
+
+    if(contents.empty())
+        return std::experimental::nullopt;
+
+    std::for_each(contents.begin(), contents.end(), [&](char curr){ if(curr != '\n') count += 1; });
+
+    return count;
+};
+
+auto printResults = [](std::string const& description, auto const& results)
+{
+    std::cout << description << ": " << results << std::endl;
+};
+
+int main()
+{
+    auto validResultFromLambda = readLettersFromFileLambda("./txt/valid.txt").value_or("File couldn't be opened");
+    printResults("\nCASE 1: Read valid file lambda", validResultFromLambda);
+
+    auto invalidResultFromLambda = readLettersFromFileLambda("./txt/this_is_an_invalid_file.txt").value_or("File couldn't be opened");
+    printResults("\nCASE 2: Read invalid file lambda", invalidResultFromLambda);
+
+    auto emptyResultFromLambda = readLettersFromFileLambda("./txt/empty.txt").value_or("File couldn't be opened");
+    printResults("\nCASE 3: Read empty file lambda", emptyResultFromLambda);
+    
+    auto validResultFromFunc = readLettersFromFileFunc("./txt/valid.txt").value_or("File couldn't be opened.");
+    printResults("\nCASE 4: Read valid file func", validResultFromFunc);
+
+    auto invalidResultFromFunc = readLettersFromFileFunc("./txt/this_is_an_invalid_file.txt").value_or("File couldn't be opened");
+    printResults("\nCASE 5: Read invalid file func", invalidResultFromFunc);
+
+    auto emptyResultFromFunc = readLettersFromFileFunc("./txt/empty.txt").value_or("File couldn't be opened");
+    printResults("\nCASE 6: Read empty file func", emptyResultFromFunc);
+
+    auto countResultFromValidStringLambda = countLetters(validResultFromLambda).value_or(0);
+    printResults("\nCASE 7: Read valid string lambda", countResultFromValidStringLambda);
+
+    auto countResultFromEmptyStringLambda = countLetters(emptyResultFromLambda).value_or(0);
+    printResults("\nCASE 8: Read empty string lambda", countResultFromEmptyStringLambda);
+
+    auto countResultFromValidStringFunc = countLetters(validResultFromFunc).value_or(0);
+    printResults("\nCASE 9: Read valid string func", countResultFromValidStringFunc);
+
+    auto countResultFromEmptyStringFunc = countLetters(emptyResultFromFunc).value_or(0);
+    printResults("\nCASE 10: Read empty string func", countResultFromEmptyStringFunc);
+
+    return 0;
+}
