@@ -19,7 +19,20 @@
 #include <vector>
 #include <numeric>
 
-// make maybe monad
+template<typename T>
+using Maybe = std::experimental::optional<T>;
+
+template<typename T>
+Maybe<T> Just(T value) 
+{
+    return std::experimental::make_optional(value);
+}
+
+template<typename T>
+Maybe<T> Nothing() 
+{
+    return std::experimental::nullopt;
+}
 
 auto readLettersFromFileLambda = [](std::string const& path) -> std::experimental::optional<std::string>
 {
@@ -29,7 +42,7 @@ auto readLettersFromFileLambda = [](std::string const& path) -> std::experimenta
     std::vector<std::string> lines;
 
     if(!file.is_open()) 
-        return std::experimental::nullopt;
+        return Nothing<std::string>();
     
     while(getline(file, line))
     {
@@ -43,7 +56,7 @@ auto readLettersFromFileLambda = [](std::string const& path) -> std::experimenta
             return acc.empty() ? curr : acc + '\n' + curr;
         });
 
-    return std::experimental::make_optional(contents);
+    return Just(contents);
 };
 
 std::experimental::optional<std::string> readLettersFromFileFunc(std::string const& path)
@@ -54,7 +67,7 @@ std::experimental::optional<std::string> readLettersFromFileFunc(std::string con
     std::vector<std::string> lines;
 
     if(!file.is_open()) 
-        return std::experimental::nullopt;
+        return Nothing<std::string>();
     
     while(getline(file, line))
     {
@@ -68,7 +81,7 @@ std::experimental::optional<std::string> readLettersFromFileFunc(std::string con
             return acc.empty() ? curr : acc + '\n' + curr;
         });
 
-    return std::experimental::make_optional(contents);
+    return Just(contents);
 }
 
 auto countLetters = [](std::string const& contents) -> std::experimental::optional<int>
@@ -76,11 +89,11 @@ auto countLetters = [](std::string const& contents) -> std::experimental::option
     int count = 0;
 
     if(contents.empty())
-        return std::experimental::nullopt;
+        return Nothing<int>();
 
     std::for_each(contents.begin(), contents.end(), [&](char curr){ if(curr != '\n') count += 1; });
 
-    return count;
+    return Just(count);
 };
 
 auto printResults = [](std::string const& description, auto const& results)
