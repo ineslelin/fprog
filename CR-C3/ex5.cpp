@@ -1,3 +1,5 @@
+// SKIPPED
+
 /*
     Example program that reads a text file and checks if it's in EBCDIC format. Please use the Maybe monad for error management.
     1. First, define the Maybe type alias, which uses std::optional:
